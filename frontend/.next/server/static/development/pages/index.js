@@ -93,6 +93,63 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./components/Data.js":
+/*!****************************!*\
+  !*** ./components/Data.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Data; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ScrapeContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ScrapeContext */ "./components/ScrapeContext.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "date-fns");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(date_fns__WEBPACK_IMPORTED_MODULE_2__);
+var _jsxFileName = "/home/ben/scrapr/frontend/components/Data.js";
+
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+
+function Data() {
+  const {
+    scrapes
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_ScrapeContext__WEBPACK_IMPORTED_MODULE_1__["ScrapeContext"]);
+  return __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 8
+    },
+    __self: this
+  }, __jsx("ul", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 9
+    },
+    __self: this
+  }, scrapes.twitter.map(item => {
+    return __jsx("li", {
+      key: item.date,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 12
+      },
+      __self: this
+    }, item.count, "- ", Object(date_fns__WEBPACK_IMPORTED_MODULE_2__["formatDistance"])(new Date(item.date), new Date()));
+  })), __jsx("h2", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 18
+    },
+    __self: this
+  }, "Data: ", scrapes.twitter.length));
+}
+
+/***/ }),
+
 /***/ "./components/Page.js":
 /*!****************************!*\
   !*** ./components/Page.js ***!
@@ -110,24 +167,45 @@ var _jsxFileName = "/home/ben/scrapr/frontend/components/Page.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
+
+
+function useScrapes() {
+  const {
+    0: scrapes,
+    1: setScrapes
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    twitter: [],
+    insta: []
+  });
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    (async () => {
+      const res = await fetch("http://localhost:4000/data");
+      const data = await res.json();
+      console.log(data);
+      setScrapes(data);
+    })();
+  }, []);
+  return scrapes;
+}
+
 function Page({
   children
 }) {
+  const scrapes = useScrapes();
   return __jsx(_ScrapeContext__WEBPACK_IMPORTED_MODULE_1__["ScrapeProvider"], {
     value: {
-      hi: "hello",
-      bye: "cya"
+      scrapes
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 5
+      lineNumber: 24
     },
     __self: this
   }, __jsx("div", {
     className: "page",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 11
+      lineNumber: 29
     },
     __self: this
   }, children));
@@ -139,11 +217,12 @@ function Page({
 /*!*************************************!*\
   !*** ./components/ScrapeContext.js ***!
   \*************************************/
-/*! exports provided: ScrapeProvider */
+/*! exports provided: ScrapeContext, ScrapeProvider */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScrapeContext", function() { return ScrapeContext; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScrapeProvider", function() { return ScrapeProvider; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -166,24 +245,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Page */ "./components/Page.js");
+/* harmony import */ var _components_Data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Data */ "./components/Data.js");
 var _jsxFileName = "/home/ben/scrapr/frontend/pages/index.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
 
 function Home() {
   return __jsx(_components_Page__WEBPACK_IMPORTED_MODULE_1__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 5
+      lineNumber: 6
     },
     __self: this
   }, __jsx("p", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 6
+      lineNumber: 7
     },
     __self: this
-  }, "Home page"));
+  }, "Home page"), __jsx(_components_Data__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 8
+    },
+    __self: this
+  }));
 }
 
 /***/ }),
@@ -197,6 +284,17 @@ function Home() {
 
 module.exports = __webpack_require__(/*! /home/ben/scrapr/frontend/pages/index.js */"./pages/index.js");
 
+
+/***/ }),
+
+/***/ "date-fns":
+/*!***************************!*\
+  !*** external "date-fns" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("date-fns");
 
 /***/ }),
 
