@@ -1,10 +1,11 @@
 import express from "express";
-import cors from 'cors'
+import cors from "cors";
 import { getTwitterCount, getInstaCount } from "./scraper";
 import db from "./utils/db";
+import { uniqueCount } from "./utils/uniqueVals";
 
 const app = express();
-app.use(cors())
+app.use(cors());
 
 console.log(db);
 
@@ -18,9 +19,12 @@ app.get("/scrape", async (req, res, next) => {
   res.json({ instaCount, twitterCount });
 });
 
-app.get('/data', async (req, res, next) => {
-  const twitter = db.value()
-  res.json(twitter)
-})
+app.get("/data", async (req, res, next) => {
+  const { twitter, insta } = db.value();
+  //get only unique values
+  const uniqueTwitterVal = uniqueCount(twitter);
+  const uniqueInstaVal = uniqueCount(insta);
+  res.json({ twitter: uniqueTwitterVal, insta: uniqueInstaVal });
+});
 
 app.listen(4000, () => console.log("app running"));
