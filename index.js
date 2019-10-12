@@ -1,11 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const app = express();
+import { getHTML, getFollowers, getInstFollowers } from "./scraper";
 
-app.use(cors());
-app.use(bodyParser.json())
+async function go() {
+  const twitterPromise = await getHTML("https://twitter.com/wesbos");
+  const instaPromise = await getHTML("https://instagram.com/wesbos");
+  const [instaHTML, twitterHTML] = await Promise.all([
+    instaPromise,
+    twitterPromise,
+  ]);
+  const instaCount = await getInstFollowers(instaHTML);
+  const twitterCount = await getFollowers(twitterHTML);
+  console.log(`insta followers: ${instaCount} twitter followers: ${twitterCount}`)
+}
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(3000, () => console.log('listening on port'))
+go();
