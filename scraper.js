@@ -25,3 +25,13 @@ export async function getInstFollowers(html) {
     obj.mainEntityofPage.interactionStatistic.userInteractionCount,
   );
 }
+
+export async function getTwitterCount() {
+    const html = await getHTML("https://twitter.com/wesbos");
+    return await getFollowers(html);
+}
+
+export async function getInstaCount() {
+    const html = await getHTML("https://instagram.com/wesbos");
+    return await getInstFollowers(html);
+}

@@ -1,15 +1,31 @@
-import { getHTML, getFollowers, getInstFollowers } from "./scraper";
+import express from "express";
+import { getTwitterCount, getInstaCount } from "./scraper";
+import db from "./utils/db";
 
-async function go() {
-  const twitterPromise = await getHTML("https://twitter.com/wesbos");
-  const instaPromise = await getHTML("https://instagram.com/wesbos");
-  const [instaHTML, twitterHTML] = await Promise.all([
-    instaPromise,
-    twitterPromise,
+const app = express();
+
+console.log(db);
+
+app.get("/scrape", async (req, res, next) => {
+  console.log("scraping");
+  const [instaCount, twitterCount] = await Promise.all([
+    getInstaCount(),
+    getTwitterCount(),
   ]);
-  const instaCount = await getInstFollowers(instaHTML);
-  const twitterCount = await getFollowers(twitterHTML);
-  console.log(`insta followers: ${instaCount} twitter followers: ${twitterCount}`)
-}
+  console.log(instaCount, twitterCount);
+  db.get("twitter")
+    .push({
+      date: Date.now(),
+      count: twitterCount,
+    })
+    .write();
+  db.get("insta")
+    .push({
+      date: Date.now(),
+      count: instaCount,
+    })
+    .write();
+  res.json({ instaCount, twitterCount });
+});
 
-go();
+app.listen(3000, () => console.log("app running"));
