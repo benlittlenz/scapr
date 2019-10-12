@@ -1,0 +1,1 @@
+{"version":3,"file":"static/webpack/static/development/pages/index.js.9691f41c87f7bf0bd359.hot-update.js","sources":["webpack:///./pages/index.js"],"sourcesContent":["import Page from '../components/Page';\n\nexport default function Home() {\n    return <Page></Page>\n}"],"mappings":";;;;;;;;;;;;;;;;;;AAAA;AAEA;AACA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACA;;;;A","sourceRoot":""}
