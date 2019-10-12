@@ -1,0 +1,1 @@
+{"name":"frontend","version":"1.0.0","description":"","main":"index.js","dependencies":{"date-fns":"^2.4.1","next":"^9.1.1","react":"^16.10.2","react-dom":"^16.10.2"},"devDependencies":{},"scripts":{"dev":"next dev","build":"next build","start":"next"},"keywords":[],"author":"","license":"ISC","readme":"ERROR: No README data found!","_id":"frontend@1.0.0"}
